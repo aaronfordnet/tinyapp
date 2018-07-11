@@ -4,12 +4,24 @@
     <% include ../views/partials/_header %>
   </head>
   <body>
+  <div class="linklist">
+    <h1 class="managetitle">Your Tiny Links</h1>
     <ul>
-        <% for (let url in urls) { %>
-            <li><%= url %> - <%= urls[url] %></li>
-        <% }; %>
-    </ul>
 
-    <a href="urls/new">Shorten a new URL</a>
+        <% for (let url in urls) { %>
+          <li><a href="<%= urls[url] %>"><%= url %></a> - <%= urls[url] %>
+
+            <form action="/urls/<%= url %>/delete" method="POST" id="delete"></form>
+            <button type="submit" form="delete" value="Submit">Delete</button>
+
+            <button type="submit" form="edit" value="Submit">Edit</button>
+            <form action="/urls/<%= url %>" method="POST" id="delete"></form>
+
+        </li>
+        <% }; %>
+
+    </ul>
+    <a href="/urls/new">Shorten a new URL</a>
+    </div>
   </body>
 </html>

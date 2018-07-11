@@ -3,12 +3,19 @@
   <head>
     <% include ../views/partials/_header %>
   </head>
-  <body style="font-size:20px; padding:50px;">
-    <% include partials/_header %>
-    <form action="/urls" method="POST" style="margin:150px;">
-      <label for="longURL">Enter a URL:</label>
-      <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
-      <input type="submit" value="Submit">
-    </form>
+  <body>
+
+  <h1 class="title">TinyApp</h1>
+  <form class="searchform cf" action="/urls" method="POST">
+    <input id="longURL" type="text" name="longURL" placeholder="Enter a long URL to make tiny">
+    <button type="submit" value="Submit">Make It Tiny!</button>
+  </form>
+
+    <ul class="homenav">
+      <li class="homelinks"><a href="../urls">Manage Links</a></li>
+      <li class="homelinks"><a href=#>About TinyApp</a></li>
+    </ul>
+
+    <p class="credit">Layout template by <a target="_blank" href="http://dribbble.com/shots/843289-Search-Bar?list=tags&tag=ui">Liang Shi</a> and <a target="_blank" href="https://codepen.io/cameronbaney/pen/EazjJ">Cameron Baney</a></p>
   </body>
 </html>
