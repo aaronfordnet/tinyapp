@@ -163,6 +163,14 @@ a,a:visited {
 
   #delete {
     display: inline-block;
+    float: right;
+    padding-right: 20px;
+  }
+
+  #edit {
+    display: inline-block;
+    padding-right: 10px;
+    float: right;
   }
 
   .linklist {
@@ -178,6 +186,7 @@ a,a:visited {
   .linklist li {
     list-style-type: none;
     border: 1px solid white;
+    border-radius: 5px;
     margin-bottom: 10px;
     padding: 15px 0 15px 0;
   }
