@@ -1,4 +1,4 @@
-//"use strict";
+"use strict";
 
 const express = require("express");
 const app = express();
@@ -46,7 +46,7 @@ app.get("/u/:shortURL", (req, res) => {
   // Check urlDatabase for valid url id
   for (let urls in urlDatabase) {
     if (urls === shortURL) {
-      res.redirect(longURL);
+      res.redirect(302, longURL);
     }
   }
 
@@ -65,25 +65,7 @@ function generateRandomString() {
   return id;
 }
 
-
-// app.get("/urls", (req, res) => {
-//   res.render("urls_index", {
-//     urls: urlDatabase
-//   });
-// });
-
-// app.get("/", (req, res) => {
-//   res.end("Hello!");
-// });
-//
-// app.get("/urls.json", (req, res) => {
-//   res.json(urlDatabase);
-// });
-//
-// app.get("/hello", (req, res) => {
-//   res.end("<html><body>Hello <b>World</b></body></html>\n");
-// });
-
+// LISTEN ON PORT 8080
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
+  console.log(`TinyApp listening on localhost:${PORT}`);
 });
