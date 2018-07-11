@@ -92,6 +92,14 @@ app.post("/urls/:id", (req, res) => {
   res.redirect(`/urls/${editId}`)
 });
 
+// USER LOGIN  - POST
+app.post("/login", (req, res) => {
+  let userinput = req.body.logintext;
+  console.log(userinput);
+  res.cookie('username', userinput);
+  res.redirect(`/urls`)
+});
+
 // REDIRECT LINK
 app.get("/u/:shortURL", (req, res) => {
   let shortURL = req.params.shortURL;
