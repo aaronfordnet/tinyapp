@@ -56,6 +56,11 @@ app.get("/urls/:id", (req, res) => {
   });
 });
 
+// 404 PAGE
+app.use((req, res) => {
+  res.status(404).render('404');
+})
+
 // CREATE NEW URL - POST
 app.post("/urls", (req, res) => {
   // Create new short URL id and add to database
@@ -95,15 +100,9 @@ app.get("/u/:shortURL", (req, res) => {
 
   // Throw error if no valid url id exists
   // Can't set headers after they are sent error
-  res.send("Error - TinyUrl not found");
+  // res.send("Error - TinyUrl not found");
 });
 
-
-
-// Load 404 page
-// app.use((req,ren) () => {
-//   res.status(404).render('404');
-// });
 
 // LISTEN ON PORT 8080
 app.listen(PORT, () => {

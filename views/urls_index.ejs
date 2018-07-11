@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+    <title>My Tiny URLs | TinyApp URL Shortener</title>
     <% include ../views/partials/_header %>
   </head>
   <body>
@@ -13,7 +14,11 @@
 
             <form action="/urls/<%= url %>/delete" method="POST" id="delete"><button type="submit" value="Submit">Delete</button></form>
 
-            <form action="/urls/<%= url %>" method="GET" id="edit"><button type="submit" value="Submit">Edit</button></form>
+            <!-- <form action="/urls/<%= url %>" id="edit"><button type="submit" value="Submit">Edit</button></form>
+             -->
+
+          <a href="/urls/<%= url %>" id="edit"><button>Edit</button></a>
+
         </li>
         <% }; %>
 
