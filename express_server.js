@@ -26,7 +26,6 @@ function generateRandomString() {
   return id;
 }
 
-
 /*  ===========
      ROUTES
 ============= */
@@ -50,16 +49,23 @@ app.get("/urls", (req, res) => {
 
 // EDIT URL PAGE
 app.get("/urls/:id", (req, res) => {
-  res.render("urls_show", {
-    shortURL: req.params.id,
-    urls: urlDatabase
-  });
+  // Check that shortURL exists in database
+  for (let urls in urlDatabase) {
+    if (urls === req.params.id) {
+      res.render("urls_show", {
+        shortURL: req.params.id,
+        urls: urlDatabase
+      });
+      return;
+    }
+  }
+res.status(404).render('404');
+// Old code:
+// res.render("urls_show", {
+//   shortURL: req.params.id,
+//   urls: urlDatabase
+// });
 });
-
-// 404 PAGE
-app.use((req, res) => {
-  res.status(404).render('404');
-})
 
 // CREATE NEW URL - POST
 app.post("/urls", (req, res) => {
@@ -74,7 +80,6 @@ app.post("/urls", (req, res) => {
 // DELETE URL - POST
 app.post("/urls/:id/delete", (req, res) => {
   let deleteId = req.params.id;
-  //console.log(deleteId);
   delete urlDatabase[deleteId];
   res.redirect(`../`)
 });
@@ -91,17 +96,20 @@ app.post("/urls/:id", (req, res) => {
 app.get("/u/:shortURL", (req, res) => {
   let shortURL = req.params.shortURL;
   let longURL = urlDatabase[shortURL];
-  // Check urlDatabase for valid url id
+  // Check urlDatabase for valid url id, else return 404
   for (let urls in urlDatabase) {
     if (urls === shortURL) {
       res.redirect(302, longURL);
+      return;
     }
   }
-
-  // Throw error if no valid url id exists
-  // Can't set headers after they are sent error
-  // res.send("Error - TinyUrl not found");
+  res.status(404).render('404');
 });
+
+// RETURN 404 ERROR PAGE
+app.use((req, res) => {
+  res.status(404).render('404');
+})
 
 
 // LISTEN ON PORT 8080
