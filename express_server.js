@@ -1,25 +1,22 @@
 "use strict";
-
-/*  ===========
-    SETUP
-============= */
+/*  ===============
+      SETUP
+================= */
 
 const express = require("express");
 const app = express();
 const port = 8080; // default port 8080
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser')
 
 app.set("view engine", "ejs")
 app.use(bodyParser.urlencoded({extended: true}));
 app.use("/assets",express.static(__dirname + "/assets"));
-
-var cookieParser = require('cookie-parser')
 app.use(cookieParser())
 
-
-/*  ===========
-DATA + FUNCTIONS
-============= */
+/*  ===============
+  DATA + FUNCTIONS
+================= */
 
 // URL DATABASE
 const urlDatabase = {
@@ -57,9 +54,9 @@ function generateRandomString() {
   return id;
 }
 
-/*  ===========
-    GET ROUTES
-============= */
+/*  ===============
+      GET ROUTES
+================= */
 
 // Redirect '/' to '/urls/new'
 app.get('/', (req, res) => {
@@ -120,9 +117,9 @@ app.get("/u/:shortURL", (req, res) => {
   res.status(404).render('404');
 });
 
-/*  ===========
-   POST ROUTES
-============= */
+/*  ===============
+     POST ROUTES
+================= */
 
 // CREATE NEW URL - POST
 app.post("/urls", (req, res) => {
@@ -168,19 +165,35 @@ app.post('/register', (req, res) => {
   let userId = `user-${generateRandomString()}`;
   let userEmail = req.body.email;
   let userPassword = req.body.password;
+
+  // Check for empty email or password
+  if (!userEmail || !userPassword) {
+    console.log('error - empty email or password');
+    res.status(400).render('404');
+    return;
+  };
+  // Check that email does not exist
+  for (let user in users) {
+    let email = users[user].email;
+    if (userEmail === email) {
+      console.log('error - email already registered');
+      res.status(400).render('404');
+      return;
+    }
+  }
+  // Create new registered user
   users[userId] = {
     id: userId,
     email: userEmail,
     password: userPassword
   }
-  console.log(users);
   res.cookie('user-id', userId);
   res.redirect(`/urls`);
 });
 
-/*  ===========
-      OTHER
-============= */
+/*  ===============
+        OTHER
+================= */
 
 // RETURN 404 ERROR PAGE
 app.use((req, res) => {
@@ -191,3 +204,7 @@ app.use((req, res) => {
 app.listen(port, () => {
   console.log(`TinyApp listening on localhost:${port}`);
 });
+
+
+//// TO DO
+// Add custom error message to 404 page depending on error
