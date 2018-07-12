@@ -7,8 +7,11 @@
   <body>
     <div class="linklist">
       <h1 class="managetitle">Your Tiny Links</h1>
+
         <% if (!user) { %>
+
           <a href="/login">Please login to see your saved URLs</a>
+
         <% } else { %>
 
       <ul>
@@ -18,9 +21,9 @@
 
             <form action="/urls/<%= url %>/delete" method="POST" id="delete"><button type="submit" value="Submit">Delete</button></form>
 
-          <a href="/urls/<%= url %>" id="edit"><button>Edit</button></a>
+            <a href="/urls/<%= url %>" id="edit"><button>Edit</button></a>
 
-        </li>
+          </li>
 
         <% }; %>
 

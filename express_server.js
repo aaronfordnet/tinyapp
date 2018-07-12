@@ -22,7 +22,7 @@ app.use(cookieParser())
 const urlDatabase = {
   "b2xVn2": {
     longURL: "http://www.lighthouselabs.ca",
-    userID: "user-4Tty23"
+    userID: "user-vN1jLu"
   },
   "9sm5xK": {
     longURL: "http://www.google.com",
@@ -43,8 +43,8 @@ const users = {
   },
  "user-vN1jLu": {
     id: "user-vN1jLu",
-    email: "user2@example.com",
-    password: "dishwasher-funk"
+    email: "test2@test.com",
+    password: "test"
   },
   "user-123456": {
      id: "user-123456",
@@ -62,6 +62,23 @@ function generateRandomString() {
     id += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return id;
+}
+
+// FILTER URLS BY USER ID FUNCTION:
+function urlsForUser(id) {
+  let output = {};
+  for (let urlId in urlDatabase) {
+    let item = urlDatabase[urlId];
+     // console.log('urlId: ' + urlId);
+     // console.log('item: ' + item.longURL);
+     if (item.userID === id) {
+     output[urlId] = {
+       longURL: item.longURL,
+       userID: item.userID
+     };
+    }
+  }
+  return output;
 }
 
 /*  ===============
@@ -89,8 +106,16 @@ app.get("/urls/new", (req, res) => {
 // URL INDEX PAGE
 app.get("/urls", (req, res) => {
   let currentUser = users[req.cookies['user_id']];
+  if (!currentUser) {
+    let templateVars = {
+      urls: urlDatabase,
+      user: currentUser,
+    }
+    res.render("urls_index", templateVars);
+    return;
+  }
   let templateVars = {
-    urls: urlDatabase,
+    urls: urlsForUser(currentUser.id),
     user: currentUser,
   }
   res.render("urls_index", templateVars);
@@ -99,6 +124,21 @@ app.get("/urls", (req, res) => {
 // EDIT URL PAGE
 app.get("/urls/:id", (req, res) => {
   let currentUser = users[req.cookies['user_id']];
+  //Check if user owns the link
+  if (!currentUser || currentUser.id !== urlDatabase[req.params.id].userID) {
+    let templateVars = {
+      user: 0,
+      shortURL: req.params.id,
+      urls: urlDatabase
+    };
+    for (let urls in urlDatabase) {
+      if (urls === req.params.id) {
+        res.render("urls_show", templateVars);
+        return;
+      }
+    };
+  }
+  
   let templateVars = {
     user: currentUser,
     shortURL: req.params.id,
@@ -106,6 +146,7 @@ app.get("/urls/:id", (req, res) => {
   };
   for (let urls in urlDatabase) {
     if (urls === req.params.id) {
+      console.log('authorized');
       res.render("urls_show", templateVars);
       return;
     }
@@ -134,7 +175,7 @@ app.get('/login', (req, res) => {
 // REDIRECT LINK
 app.get("/u/:shortURL", (req, res) => {
   let shortURL = req.params.shortURL;
-  let longURL = urlDatabase[shortURL];
+  let longURL = urlDatabase[shortURL].longURL;
   for (let urls in urlDatabase) {
     if (urls === shortURL) {
       res.redirect(302, longURL);
