@@ -1,14 +1,3 @@
 <meta charset="utf-8">
 <link rel='stylesheet' href='/assets/styles.css' />
 <link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
-
-<% if (user.id) { %>
-  <p>Logged in as <%= user.id %></p>
-  <form id="logoutform" action="/logout" method="post">
-    <button type="submit" value="Submit">Logout</button></form>
-<% } else { %>
-  <form class="searchform cf" id="loginform" action="/login" method="post">
-    <input type="text" name="logintext" placeholder="Enter a login name">
-    <button type="submit" value="Submit">Submit</button>
-  </form>
-<% } %>

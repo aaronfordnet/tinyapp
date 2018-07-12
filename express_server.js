@@ -108,6 +108,15 @@ app.get('/register', (req, res) => {
   res.render("register", templateVars);
 });
 
+// LOGIN PAGE
+app.get('/login', (req, res) => {
+  let currentUser = users[req.cookies['user_id']]
+  let templateVars = {
+    user: currentUser,
+  };
+  res.render("login", templateVars);
+});
+
 // REDIRECT LINK
 app.get("/u/:shortURL", (req, res) => {
   let shortURL = req.params.shortURL;
@@ -152,10 +161,26 @@ app.post("/urls/:id", (req, res) => {
 
 // USER LOGIN  - POST
 app.post("/login", (req, res) => {
-  let userinput = req.body.logintext;
-  //console.log(userinput);
-  res.cookie('user_id', userinput);
-  res.redirect(`/urls`);
+  let loginEmail = req.body.email;
+  let loginPassword = req.body.password;
+  console.log(loginEmail, loginPassword);
+  // check if user exists in DB with email
+  for (let userId in users) {
+    let user = users[userId];
+    if (loginEmail === user.email) {
+      // check for correct password
+      if (loginPassword !== user.password) {
+        console.log('Login Error - incorrect password');
+        res.status(403).render('404');
+        return;
+      }
+      res.cookie('user_id', user.id);
+      res.redirect(`/urls`);
+      return;
+    }
+  }
+  console.log('Login Error - email not registered');
+  res.status(403).render('404');
 });
 
 // USER LOGOUT  - POST
@@ -212,3 +237,4 @@ app.listen(port, () => {
 
 //// TO DO
 // Add custom error message to 404 page depending on error
+// Add register and login links to _header.ejs
