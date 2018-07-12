@@ -32,8 +32,8 @@ const users = {
     email: "user@example.com",
     password: "purple-monkey-dinosaur"
   },
- "user-Xi2q9U": {
-    id: "user-Xi2q9U",
+ "user-vN1jLu": {
+    id: "user-vN1jLu",
     email: "user2@example.com",
     password: "dishwasher-funk"
   },
@@ -65,25 +65,28 @@ app.get('/', (req, res) => {
 
 // CREATE NEW URL PAGE
 app.get("/urls/new", (req, res) => {
+  let currentUser = users[req.cookies['user_id']];
   let templateVars = {
-    username: req.cookies["username"],
+    user: currentUser,
   }
   res.render("urls_new", templateVars);
 });
 
 // URL INDEX PAGE
 app.get("/urls", (req, res) => {
+  let currentUser = users[req.cookies['user_id']];
   let templateVars = {
     urls: urlDatabase,
-    username: req.cookies["username"]
+    user: currentUser,
   }
   res.render("urls_index", templateVars);
 });
 
 // EDIT URL PAGE
 app.get("/urls/:id", (req, res) => {
+  let currentUser = users[req.cookies['user_id']];
   let templateVars = {
-    username: req.cookies["username"],
+    user: currentUser,
     shortURL: req.params.id,
     urls: urlDatabase
   };
@@ -98,8 +101,9 @@ res.status(404).render('404');
 
 // REGISTER PAGE
 app.get('/register', (req, res) => {
+  let currentUser = users[req.cookies['user_id']]
   let templateVars = {
-    username: req.cookies["username"],
+    user: currentUser,
   };
   res.render("register", templateVars);
 });
@@ -150,13 +154,13 @@ app.post("/urls/:id", (req, res) => {
 app.post("/login", (req, res) => {
   let userinput = req.body.logintext;
   //console.log(userinput);
-  res.cookie('username', userinput);
+  res.cookie('user_id', userinput);
   res.redirect(`/urls`);
 });
 
 // USER LOGOUT  - POST
 app.post('/logout', (req, res) => {
-  res.clearCookie('username');
+  res.clearCookie('user_id');
   res.redirect(`/urls`);
 });
 
@@ -187,7 +191,7 @@ app.post('/register', (req, res) => {
     email: userEmail,
     password: userPassword
   }
-  res.cookie('user-id', userId);
+  res.cookie('user_id', userId);
   res.redirect(`/urls`);
 });
 
