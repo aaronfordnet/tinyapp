@@ -112,11 +112,9 @@ app.get('/register', (req, res) => {
 // LOGIN PAGE
 app.get('/login', (req, res) => {
   let currentUser = users[req.cookies['user_id']];
-  console.log(currentUser);
   let templateVars = {
     user: currentUser,
   };
-  console.log(templateVars);
   res.render("login", templateVars);
 });
 

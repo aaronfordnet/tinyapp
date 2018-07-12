@@ -1,3 +1,22 @@
 <meta charset="utf-8">
 <link rel='stylesheet' href='/assets/styles.css' />
 <link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
+
+<% if (!user) { %>
+  <ul class="topnav">
+    <li class="toplinks"><a href="../">Home</a></li>
+    <li class="toplinks"><a href="../urls">Manage Links</a></li>
+    <li class="toplinks"><a href="../register">Register</a></li>
+    <li class="toplinks"><a href="../login">Login</a></li>
+  </ul>
+  <% } else { %>
+  <ul class="topnav">
+    <li class="toplinks"><a href="../"><%= user.email %></a></li>
+    <li class="toplinks"><a href="../">Home</a></li>
+    <li class="toplinks"><a href="../urls">Manage Links</a></li>
+    <li class="toplinks"><a href="../login">Login</a></li>
+    <form id="logoutform" action="/logout" method="post">
+      <button type="submit" value="Submit">Logout</button>
+    </form>
+  </ul>
+<% } %>
