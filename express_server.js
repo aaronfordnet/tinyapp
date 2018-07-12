@@ -41,35 +41,40 @@ app.get('/', (req, res) => {
 
 // CREATE NEW URL PAGE
 app.get("/urls/new", (req, res) => {
-  let currentUser = req.cookies["username"];
-  res.render("urls_new", {
-    username: currentUser
-  });
+  let templateVars = {
+    username: req.cookies["username"],
+  }
+  res.render("urls_new", templateVars);
 });
 
 // URL INDEX PAGE
 app.get("/urls", (req, res) => {
-  let currentUser = req.cookies["username"];
-  res.render("urls_index", {
+  let templateVars = {
     urls: urlDatabase,
-    username: currentUser
-  });
+    username: req.cookies["username"]
+  }
+  res.render("urls_index", templateVars);
 });
 
 // EDIT URL PAGE
 app.get("/urls/:id", (req, res) => {
-  let currentUser = req.cookies["username"];
+  let templateVars = {
+    username: req.cookies["username"],
+    shortURL: req.params.id,
+    urls: urlDatabase
+  };
   for (let urls in urlDatabase) {
     if (urls === req.params.id) {
-      res.render("urls_show", {
-        username: currentUser,
-        shortURL: req.params.id,
-        urls: urlDatabase
-      });
+      res.render("urls_show", templateVars);
       return;
     }
   };
 res.status(404).render('404');
+});
+
+app.get('/register', (req, res) => {
+
+
 });
 
 // CREATE NEW URL - POST
