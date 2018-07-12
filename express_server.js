@@ -9,6 +9,10 @@ app.set("view engine", "ejs")
 app.use(bodyParser.urlencoded({extended: true}));
 app.use("/assets",express.static(__dirname + "/assets"));
 
+var cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
+
 // MAIN URL DATABASE
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -37,7 +41,7 @@ app.get('/', (req, res) => {
 
 // CREATE NEW URL PAGE
 app.get("/urls/new", (req, res) => {
-  let currentUser = (req.headers.cookie.split('='))[1];
+  let currentUser = req.cookies["username"];
   res.render("urls_new", {
     username: currentUser
   });
@@ -45,7 +49,7 @@ app.get("/urls/new", (req, res) => {
 
 // URL INDEX PAGE
 app.get("/urls", (req, res) => {
-  let currentUser = (req.headers.cookie.split('='))[1];
+  let currentUser = req.cookies["username"];
   res.render("urls_index", {
     urls: urlDatabase,
     username: currentUser
@@ -54,24 +58,18 @@ app.get("/urls", (req, res) => {
 
 // EDIT URL PAGE
 app.get("/urls/:id", (req, res) => {
-  let currentUser = (req.headers.cookie.split('='))[1];
-  // Check that shortURL exists in database
+  let currentUser = req.cookies["username"];
   for (let urls in urlDatabase) {
     if (urls === req.params.id) {
       res.render("urls_show", {
+        username: currentUser,
         shortURL: req.params.id,
-        urls: urlDatabase,
-        username: currentUser
+        urls: urlDatabase
       });
       return;
     }
-  }
+  };
 res.status(404).render('404');
-// Old code:
-// res.render("urls_show", {
-//   shortURL: req.params.id,
-//   urls: urlDatabase
-// });
 });
 
 // CREATE NEW URL - POST
@@ -104,6 +102,12 @@ app.post("/login", (req, res) => {
   let userinput = req.body.logintext;
   //console.log(userinput);
   res.cookie('username', userinput);
+  res.redirect(`/urls`)
+});
+
+// USER LOGOUT  - POST
+app.post("/logout", (req, res) => {
+  res.clearCookie('username');
   res.redirect(`/urls`)
 });
 

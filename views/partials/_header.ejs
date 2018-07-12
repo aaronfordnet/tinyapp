@@ -2,7 +2,13 @@
 <link rel='stylesheet' href='/assets/styles.css' />
 <link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
 
- <form class="searchform cf" id="loginform" action="/login" method="post">
-   <input type="text" name="logintext" placeholder="Enter a login name" value="<%= `Logged in as: ${username}` %>">
-   <button type="submit" value="Submit">Submit</button>
- </form>
+<% if (username) { %>
+  <p>Logged in as <%= username %></p>
+  <form id="logoutform" action="/logout" method="post">
+    <button type="submit" value="Submit">Logout</button></form>
+<% } else { %>
+  <form class="searchform cf" id="loginform" action="/login" method="post">
+    <input type="text" name="logintext" placeholder="Enter a login name">
+    <button type="submit" value="Submit">Submit</button>
+  </form>
+<% } %>
