@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>Register | TinyApp URL Shortener</title>
+    <% include ../views/partials/_header %>
+  </head>
+  <body>
+
+  <h1 class="title">Register</h1>
+  <form class="searchform cf" action="/register" method="post">
+    <input id="email" type="email" name="email" placeholder="Email">
+    <input id="password" type="password" name="password" placeholder="Password">
+    <button type="submit" value="Submit">Register</button>
+  </form>
+
+    <ul class="register-nav">
+      <li class="homelinks"><a href="../urls">Manage Links</a></li>
+      <li class="homelinks"><a href=#>About TinyApp</a></li>
+    </ul>
+
+    <p class="credit-register">Form designed by <a target="_blank" href="http://dribbble.com/shots/843289-Search-Bar?list=tags&tag=ui">Liang Shi</a>, with CSS styles by <a target="_blank" href="https://codepen.io/cameronbaney/pen/EazjJ">Cameron Baney</a></p>
+  </body>
+</html>

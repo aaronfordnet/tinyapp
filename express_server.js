@@ -13,11 +13,30 @@ var cookieParser = require('cookie-parser')
 app.use(cookieParser())
 
 
-// MAIN URL DATABASE
+// URL DATABASE
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com",
   "Hy7W2r": "http://www.amazon.com",
+};
+
+// REGISTERED USER DATABASE
+const users = {
+  "user4Tty23": {
+    id: "user4Tty23",
+    email: "user@example.com",
+    password: "purple-monkey-dinosaur"
+  },
+ "userXi2q9U": {
+    id: "userXi2q9U",
+    email: "user2@example.com",
+    password: "dishwasher-funk"
+  },
+  "user123456": {
+     id: "user123456",
+     email: "test@test.com",
+     password: "test"
+   }
 };
 
 // GENERATE RANDOM URL ID FUNCTION
@@ -72,9 +91,12 @@ app.get("/urls/:id", (req, res) => {
 res.status(404).render('404');
 });
 
+// REGISTER PAGE
 app.get('/register', (req, res) => {
-
-
+  let templateVars = {
+    username: req.cookies["username"],
+  };
+  res.render("register", templateVars);
 });
 
 // CREATE NEW URL - POST
