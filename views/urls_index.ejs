@@ -5,26 +5,29 @@
     <% include ../views/partials/_header %>
   </head>
   <body>
-  <div class="linklist">
-    <h1 class="managetitle">Your Tiny Links</h1>
-    <ul>
+    <div class="linklist">
+      <h1 class="managetitle">Your Tiny Links</h1>
+        <% if (!user) { %>
+          <a href="/login">Please login to see your saved URLs</a>
+        <% } else { %>
 
+      <ul>
         <% for (let url in urls) { %>
 
           <li><a href="<%= urls[url].longURL %>"><%= url %></a> - <%= urls[url].longURL %>
 
             <form action="/urls/<%= url %>/delete" method="POST" id="delete"><button type="submit" value="Submit">Delete</button></form>
 
-            <!-- <form action="/urls/<%= url %>" id="edit"><button type="submit" value="Submit">Edit</button></form>
-             -->
-
           <a href="/urls/<%= url %>" id="edit"><button>Edit</button></a>
 
         </li>
+
         <% }; %>
 
     </ul>
     <a href="/urls/new">Shorten a new URL</a>
     </div>
+      <% } %>
+
   </body>
 </html>
