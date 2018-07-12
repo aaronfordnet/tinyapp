@@ -37,24 +37,31 @@ app.get('/', (req, res) => {
 
 // CREATE NEW URL PAGE
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  let currentUser = (req.headers.cookie.split('='))[1];
+  res.render("urls_new", {
+    username: currentUser
+  });
 });
 
 // URL INDEX PAGE
 app.get("/urls", (req, res) => {
+  let currentUser = (req.headers.cookie.split('='))[1];
   res.render("urls_index", {
-    urls: urlDatabase
+    urls: urlDatabase,
+    username: currentUser
   });
 });
 
 // EDIT URL PAGE
 app.get("/urls/:id", (req, res) => {
+  let currentUser = (req.headers.cookie.split('='))[1];
   // Check that shortURL exists in database
   for (let urls in urlDatabase) {
     if (urls === req.params.id) {
       res.render("urls_show", {
         shortURL: req.params.id,
-        urls: urlDatabase
+        urls: urlDatabase,
+        username: currentUser
       });
       return;
     }
@@ -95,7 +102,7 @@ app.post("/urls/:id", (req, res) => {
 // USER LOGIN  - POST
 app.post("/login", (req, res) => {
   let userinput = req.body.logintext;
-  console.log(userinput);
+  //console.log(userinput);
   res.cookie('username', userinput);
   res.redirect(`/urls`)
 });
