@@ -10,7 +10,8 @@
     <ul>
 
         <% for (let url in urls) { %>
-          <li><a href="<%= urls[url] %>"><%= url %></a> - <%= urls[url] %>
+
+          <li><a href="<%= urls[url].longURL %>"><%= url %></a> - <%= urls[url].longURL %>
 
             <form action="/urls/<%= url %>/delete" method="POST" id="delete"><button type="submit" value="Submit">Delete</button></form>
 

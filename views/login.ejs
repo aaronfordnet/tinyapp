@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <title>Login | TinyApp URL Shortener</title>
+  <% include ../views/partials/_header %>
+</head>
+
+<body>
+  
+  <% if (!user) { %>
+    <h1 class="title">Login</h1>
+    <form class="searchform cf" action="/login" method="post">
+      <input id="email" type="email" name="email" placeholder="Email">
+      <input id="password" type="password" name="password" placeholder="Password">
+      <button type="submit" value="Submit">Register</button>
+    </form>
+  <% } else { %>
+    <p>
+      <%= user.email %>
+    </p>
+    <form id="logoutform" action="/logout" method="post">
+      <button type="submit" value="Submit">Logout</button>
+    </form>
+  <% } %>
+
+</body>
+
+</html>

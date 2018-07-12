@@ -20,9 +20,18 @@ app.use(cookieParser())
 
 // URL DATABASE
 const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com",
-  "Hy7W2r": "http://www.amazon.com",
+  "b2xVn2": {
+    longURL: "http://www.lighthouselabs.ca",
+    userID: "user-4Tty23"
+  },
+  "9sm5xK": {
+    longURL: "http://www.google.com",
+    userID: "user-123456"
+  },
+  "Hy7W2r": {
+    longURL: "http://www.amazon.com",
+    userID: "user-123456"
+  }
 };
 
 // REGISTERED USER DATABASE
@@ -69,6 +78,10 @@ app.get("/urls/new", (req, res) => {
   let currentUser = users[req.cookies['user_id']];
   let templateVars = {
     user: currentUser,
+  }
+  if (!currentUser) {
+    res.redirect(`/login`);
+    return;
   }
   res.render("urls_new", templateVars);
 });
@@ -148,6 +161,13 @@ app.post("/urls", (req, res) => {
 // DELETE URL - POST
 app.post("/urls/:id/delete", (req, res) => {
   let deleteId = req.params.id;
+  let currentUser = users[req.cookies['user_id']].id;
+  // console.log(deleteId, currentUser.id, urlDatabase[deleteId].userID);
+  if (currentUser !== urlDatabase[deleteId].userID) {
+    console.log('Error - not authorized to delete link');
+    res.status(403).render('404');
+    return;
+  }
   delete urlDatabase[deleteId];
   res.redirect(`../`);
 });
@@ -155,8 +175,14 @@ app.post("/urls/:id/delete", (req, res) => {
 // EDIT URL - POST
 app.post("/urls/:id", (req, res) => {
   let editId = req.params.id;
+  let currentUser = users[req.cookies['user_id']].id;
+  if (currentUser !== urlDatabase[editId].userID) {
+    console.log('Error - not authorized to edit link');
+    res.status(403).render('404');
+    return;
+  }
   let updatedLongURL = req.body.updatedlongURL;
-  urlDatabase[editId] = updatedLongURL;
+  urlDatabase[editId].longURL = updatedLongURL;
   res.redirect(`/urls/${editId}`);
 });
 
