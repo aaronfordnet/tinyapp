@@ -38,11 +38,12 @@ const users = {
     password: "dishwasher-funk"
   },
   "user-123456": {
-     id: "user123456",
+     id: "user-123456",
      email: "test@test.com",
      password: "test"
    }
 };
+
 
 // GENERATE RANDOM ID FUNCTION
 function generateRandomString() {
@@ -110,10 +111,12 @@ app.get('/register', (req, res) => {
 
 // LOGIN PAGE
 app.get('/login', (req, res) => {
-  let currentUser = users[req.cookies['user_id']]
+  let currentUser = users[req.cookies['user_id']];
+  console.log(currentUser);
   let templateVars = {
     user: currentUser,
   };
+  console.log(templateVars);
   res.render("login", templateVars);
 });
 
@@ -163,7 +166,6 @@ app.post("/urls/:id", (req, res) => {
 app.post("/login", (req, res) => {
   let loginEmail = req.body.email;
   let loginPassword = req.body.password;
-  console.log(loginEmail, loginPassword);
   // check if user exists in DB with email
   for (let userId in users) {
     let user = users[userId];
@@ -175,7 +177,7 @@ app.post("/login", (req, res) => {
         return;
       }
       res.cookie('user_id', user.id);
-      res.redirect(`/urls`);
+      res.redirect(`/`);
       return;
     }
   }
@@ -186,7 +188,7 @@ app.post("/login", (req, res) => {
 // USER LOGOUT  - POST
 app.post('/logout', (req, res) => {
   res.clearCookie('user_id');
-  res.redirect(`/urls`);
+  res.redirect(`/`);
 });
 
 // REGISTER - POST
