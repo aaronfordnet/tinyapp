@@ -307,6 +307,7 @@ app.listen(port, () => {
 });
 
 
-//// TO DO
+//// TO DO:
 // Add custom error message to 404 page depending on error
 // Add register and login links to _header.ejs
+// Check url input for proper formatting when new link created
