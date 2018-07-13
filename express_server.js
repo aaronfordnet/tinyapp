@@ -9,6 +9,9 @@ const port = 8080; // default port 8080
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser')
 
+var bcrypt = require('bcrypt');
+const saltRounds = 12;
+
 app.set("view engine", "ejs")
 app.use(bodyParser.urlencoded({extended: true}));
 app.use("/assets",express.static(__dirname + "/assets"));
@@ -39,19 +42,20 @@ const users = {
   "user-4Tty23": {
     id: "user-4Tty23",
     email: "user@example.com",
-    password: "purple-monkey-dinosaur"
+    password: "$2b$12$BFYgYxD4qTmd2IUMoKB6zuBt3xI2Mv2Iyy/ix4cFXWrn8USo.EGn2"
   },
  "user-vN1jLu": {
     id: "user-vN1jLu",
     email: "test2@test.com",
-    password: "test"
+    password: "$2b$12$pSCMuhBE2eEFZr8zfXQvueOXHMqxvc1VvQ//lw7DW7DNaz2Zdxefe"
   },
   "user-123456": {
      id: "user-123456",
      email: "test@test.com",
-     password: "test"
+     password: "$2b$12$pSCMuhBE2eEFZr8zfXQvueOXHMqxvc1VvQ//lw7DW7DNaz2Zdxefe"
    }
 };
+
 
 
 // GENERATE RANDOM ID FUNCTION
@@ -138,7 +142,7 @@ app.get("/urls/:id", (req, res) => {
       }
     };
   }
-  
+
   let templateVars = {
     user: currentUser,
     shortURL: req.params.id,
@@ -231,12 +235,17 @@ app.post("/urls/:id", (req, res) => {
 app.post("/login", (req, res) => {
   let loginEmail = req.body.email;
   let loginPassword = req.body.password;
+
+  //let hashedPassword = bcrypt.hashSync(loginPassword, 10);
+  //bcrypt.compareSync(loginPassword, user.password);
+
   // check if user exists in DB with email
   for (let userId in users) {
     let user = users[userId];
     if (loginEmail === user.email) {
       // check for correct password
-      if (loginPassword !== user.password) {
+      //if (loginPassword !== user.password) {
+      if (!bcrypt.compareSync(loginPassword, user.password)) {
         console.log('Login Error - incorrect password');
         res.status(403).render('404');
         return;
@@ -261,7 +270,8 @@ app.post('/register', (req, res) => {
   let userId = `user-${generateRandomString()}`;
   let userEmail = req.body.email;
   let userPassword = req.body.password;
-
+  let hashedPassword = bcrypt.hashSync(userPassword, saltRounds);
+  console.log(hashedPassword);
   // Check for empty email or password
   if (!userEmail || !userPassword) {
     console.log('error - empty email or password');
@@ -281,7 +291,7 @@ app.post('/register', (req, res) => {
   users[userId] = {
     id: userId,
     email: userEmail,
-    password: userPassword
+    password: hashedPassword
   }
   res.cookie('user_id', userId);
   res.redirect(`/urls`);
