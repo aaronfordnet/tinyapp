@@ -13,6 +13,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 const cookieParser = require('cookie-parser')
 app.use(cookieParser())
 
+var cookieSession = require('cookie-session')
+app.use(cookieSession({
+  name: 'session',
+  keys: ['secret'],
+}));
+
 var bcrypt = require('bcrypt');
 const saltRounds = 12;
 
@@ -96,7 +102,7 @@ app.get('/', (req, res) => {
 
 // CREATE NEW URL PAGE
 app.get("/urls/new", (req, res) => {
-  let currentUser = users[req.cookies['user_id']];
+  let currentUser = users[req.session['user_id']];
   let templateVars = {
     user: currentUser,
   }
@@ -109,7 +115,7 @@ app.get("/urls/new", (req, res) => {
 
 // URL INDEX PAGE
 app.get("/urls", (req, res) => {
-  let currentUser = users[req.cookies['user_id']];
+  let currentUser = users[req.session['user_id']];
   if (!currentUser) {
     let templateVars = {
       urls: urlDatabase,
@@ -127,7 +133,7 @@ app.get("/urls", (req, res) => {
 
 // EDIT URL PAGE
 app.get("/urls/:id", (req, res) => {
-  let currentUser = users[req.cookies['user_id']];
+  let currentUser = users[req.session['user_id']];
   //Check if user owns the link
   if (!currentUser || currentUser.id !== urlDatabase[req.params.id].userID) {
     let templateVars = {
@@ -150,7 +156,6 @@ app.get("/urls/:id", (req, res) => {
   };
   for (let urls in urlDatabase) {
     if (urls === req.params.id) {
-      console.log('authorized');
       res.render("urls_show", templateVars);
       return;
     }
@@ -160,7 +165,7 @@ res.status(404).render('404');
 
 // REGISTER PAGE
 app.get('/register', (req, res) => {
-  let currentUser = users[req.cookies['user_id']]
+  let currentUser = users[req.session['user_id']]
   let templateVars = {
     user: currentUser,
   };
@@ -169,7 +174,7 @@ app.get('/register', (req, res) => {
 
 // LOGIN PAGE
 app.get('/login', (req, res) => {
-  let currentUser = users[req.cookies['user_id']];
+  let currentUser = users[req.session['user_id']];
   let templateVars = {
     user: currentUser,
   };
@@ -206,7 +211,7 @@ app.post("/urls", (req, res) => {
 // DELETE URL - POST
 app.post("/urls/:id/delete", (req, res) => {
   let deleteId = req.params.id;
-  let currentUser = users[req.cookies['user_id']].id;
+  let currentUser = users[req.session['user_id']].id;
   // console.log(deleteId, currentUser.id, urlDatabase[deleteId].userID);
   if (currentUser !== urlDatabase[deleteId].userID) {
     console.log('Error - not authorized to delete link');
@@ -220,7 +225,7 @@ app.post("/urls/:id/delete", (req, res) => {
 // EDIT URL - POST
 app.post("/urls/:id", (req, res) => {
   let editId = req.params.id;
-  let currentUser = users[req.cookies['user_id']].id;
+  let currentUser = users[req.session['user_id']].id;
   if (currentUser !== urlDatabase[editId].userID) {
     console.log('Error - not authorized to edit link');
     res.status(403).render('404');
@@ -245,7 +250,7 @@ app.post("/login", (req, res) => {
         res.status(403).render('404');
         return;
       }
-      res.cookie('user_id', user.id);
+      req.session['user_id'] = user.id;
       res.redirect(`/`);
       return;
     }
@@ -256,7 +261,8 @@ app.post("/login", (req, res) => {
 
 // USER LOGOUT  - POST
 app.post('/logout', (req, res) => {
-  res.clearCookie('user_id');
+  req.session.user_id = undefined;
+  // coookie res.clearCookie('user_id');
   res.redirect(`/`);
 });
 
@@ -266,7 +272,6 @@ app.post('/register', (req, res) => {
   let userEmail = req.body.email;
   let userPassword = req.body.password;
   let hashedPassword = bcrypt.hashSync(userPassword, saltRounds);
-  console.log(hashedPassword);
   // Check for empty email or password
   if (!userEmail || !userPassword) {
     console.log('error - empty email or password');
@@ -288,7 +293,7 @@ app.post('/register', (req, res) => {
     email: userEmail,
     password: hashedPassword
   }
-  res.cookie('user_id', userId);
+  req.session['user_id'] = userId;
   res.redirect(`/urls`);
 });
 
