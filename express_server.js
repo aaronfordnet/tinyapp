@@ -6,16 +6,18 @@
 const express = require("express");
 const app = express();
 const port = 8080; // default port 8080
+
 const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: true}));
+
 const cookieParser = require('cookie-parser')
+app.use(cookieParser())
 
 var bcrypt = require('bcrypt');
 const saltRounds = 12;
 
 app.set("view engine", "ejs")
-app.use(bodyParser.urlencoded({extended: true}));
 app.use("/assets",express.static(__dirname + "/assets"));
-app.use(cookieParser())
 
 /*  ===============
   DATA + FUNCTIONS
@@ -55,8 +57,6 @@ const users = {
      password: "$2b$12$pSCMuhBE2eEFZr8zfXQvueOXHMqxvc1VvQ//lw7DW7DNaz2Zdxefe"
    }
 };
-
-
 
 // GENERATE RANDOM ID FUNCTION
 function generateRandomString() {
@@ -235,16 +235,11 @@ app.post("/urls/:id", (req, res) => {
 app.post("/login", (req, res) => {
   let loginEmail = req.body.email;
   let loginPassword = req.body.password;
-
-  //let hashedPassword = bcrypt.hashSync(loginPassword, 10);
-  //bcrypt.compareSync(loginPassword, user.password);
-
   // check if user exists in DB with email
   for (let userId in users) {
     let user = users[userId];
     if (loginEmail === user.email) {
       // check for correct password
-      //if (loginPassword !== user.password) {
       if (!bcrypt.compareSync(loginPassword, user.password)) {
         console.log('Login Error - incorrect password');
         res.status(403).render('404');

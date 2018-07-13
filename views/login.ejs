@@ -7,13 +7,13 @@
 </head>
 
 <body>
-  
+
   <% if (!user) { %>
     <h1 class="title">Login</h1>
     <form class="searchform cf" action="/login" method="post">
       <input id="email" type="email" name="email" placeholder="Email">
       <input id="password" type="password" name="password" placeholder="Password">
-      <button type="submit" value="Submit">Register</button>
+      <button type="submit" value="Submit">Login</button>
     </form>
   <% } else { %>
     <p>
