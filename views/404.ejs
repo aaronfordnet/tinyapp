@@ -2,19 +2,22 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <title>404 Not Found | TinyApp URL Shortener</title>
+  <title>Error | TinyApp URL Shortener</title>
   <meta charset="utf-8">
   <link rel='stylesheet' href='/assets/styles.css' />
   <link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
 
 <body>
   <div class="linklist">
     <h1 class="managetitle">We have a tiny problem...</h1>
+    <img src="https://png.icons8.com/dusk/64/000000/sad.png">
     <p>The page or link you entered was not found.</p>
-    <a href="/urls/new"><button>Shorten new URL</button></a>
-    <a href="/urls"><button>Manage links</button></a>
+    <a href="/">Back to TinyApp</a>
   </div>
+<% include ../views/partials/_footer %>
 </body>
 
 </html>

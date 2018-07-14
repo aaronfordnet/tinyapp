@@ -1,6 +1,7 @@
 /*--------------------------------------------------------------
 1.0 - BASE SITE STYLES
 --------------------------------------------------------------*/
+
 *,*:after,*:before {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
@@ -19,8 +20,10 @@
 body {
   background: #3aaae8;
   color: #fff;
-  font:12px/18px 'HelveticaNeue', Helvetica, Arial, sans-serif;
+  font:12px/18px 'Roboto', Helvetica, Arial, sans-serif;
+  margin-bottom: 20px;
 }
+
 a,a:visited {
   color:#fff
 }
@@ -101,148 +104,71 @@ a,a:visited {
   -moz-border-radius: 9px;
   -webkit-border-radius: 9px;
 }
-	.searchform button:hover {
-		opacity:.9;
-	}
 
-
-  /*--------------------------------------------------------------
-  LOGIN
-  --------------------------------------------------------------*/
-
-  #loginform {
-    margin: -310px 0 0 -220px;
-  }
-
-  /*--------------------------------------------------------------
-  HOME PAGE
-  --------------------------------------------------------------*/
-
-  .title {
-    font-family: 'Shrikhand', cursive;
-    font-size: 56px;
-    font-weight: 300;
-  	left: 50%;
-    padding: 2px 5px;
-    position: absolute;
-  	margin: -85px 0 0 -130px;
-  	top: 50%;
-    width:300px;
-  }
-
-  .credit {
-    opacity: 0.9;
-  	left: 50%;
-    padding: 2px 5px;
-    position: absolute;
-  	margin: 140px 0 0 -180px;
-  	top: 50%;
-    width: 380px;
-  }
-
-  .homenav {
-    left: 50%;
-    padding: 2px 5px;
-    position: absolute;
-  	margin: 45px 0 0 -110px;
-  	top: 50%;
-    width: 300px;
-  }
-
-  .homelinks {
-    display: inline;
-    margin-right: 20px;
-    font-size: 15px;
-  }
-
-  .homelinks a {
-    text-decoration: none;
-  }
-
-  /*--------------------------------------------------------------
-  MANAGE LINKS PAGE
-  --------------------------------------------------------------*/
-
-  .managetitle {
-    font-family: 'Shrikhand', cursive;
-    font-size: 38px;
-    font-weight: 300;
-  }
-
-  #delete {
-    display: inline-block;
-    float: right;
-    padding-right: 20px;
-  }
-
-  #edit {
-    display: inline-block;
-    padding-right: 10px;
-    float: right;
-  }
-
-  .linklist {
-    left: 50%;
-    padding: 2px 5px;
-    position: absolute;
-    margin: 80px 0 0 -300px;
-    width: 600px;
-    text-align: center;
-    font-size: 15px;
-  }
-
-  .linklist li {
-    list-style-type: none;
-    border: 1px solid white;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 15px 0 15px 0;
-  }
-
+.searchform button:hover {
+	opacity:.9;
+}
 
 /*--------------------------------------------------------------
-EDIT LINK PAGE
+HEADER
 --------------------------------------------------------------*/
-.edit-title {
+
+.logo {
+  float: left;
   font-family: 'Shrikhand', cursive;
-  font-size: 42px;
+  font-size: 38px;
   font-weight: 300;
-  left: 50%;
-  padding: 2px 5px;
-  position: absolute;
-  margin: -125px 0 0 -160px;
-  top: 50%;
-  width:350px;
+  margin: 12px 0 15px 10px;
+  text-decoration: none;
 }
 
-.edit-id {
-  font-size: 15px;
-  left: 50%;
-  padding: 2px 5px;
-  position: absolute;
-  margin: -75px 0 0 -100px;
-  top: 50%;
-  width:350px;
+.topnav {
+  width: 500px;
+  margin: 12px auto;
+  padding-right: 15px;
+  float: right;
+  text-align: right;
 }
 
-.editnav {
-  left: 50%;
-  padding: 2px 5px;
-  position: absolute;
-  margin: 45px 0 0 -110px;
-  top: 50%;
-  width: 300px;
-}
-
-.editlinks {
+.toplinks {
   display: inline;
   margin-right: 20px;
   font-size: 15px;
 }
 
+.toplinks form {
+  display: inline;
+  font-size: 15px;
+}
+
+.toplinks button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.toplinks a {
+  text-decoration: none;
+}
+
+.toplinks a:hover {
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.toplinks button:hover {
+  text-decoration: none;
+  opacity: 0.8;
+}
 /*--------------------------------------------------------------
-REGISTER
+  LOGIN / REGISTER
 --------------------------------------------------------------*/
+
+#loginform {
+  margin: -310px 0 0 -220px;
+}
 
 #email {
   margin-bottom: 5px;
@@ -252,9 +178,10 @@ REGISTER
   left: 50%;
   padding: 2px 5px;
   position: absolute;
-  margin: 85px 0 0 -110px;
+  margin: 85px 0 0 -160px;
   top: 50%;
   width: 300px;
+  text-align: center;
 }
 
 .credit-register {
@@ -268,21 +195,226 @@ REGISTER
 }
 
 /*--------------------------------------------------------------
-HEADER
+CREATE NEW URL PAGE
 --------------------------------------------------------------*/
 
-.topnav {
-  width: 450px;
-  margin: 0 auto;
-  float: right;
+.title {
+  font-family: 'Shrikhand', cursive;
+  font-size: 56px;
+  font-weight: 300;
+	left: 50%;
+  padding: 2px 5px;
+  position: absolute;
+	margin: -85px 0 0 -150px;
+	top: 50%;
+  width:300px;
+  text-align: center;
 }
 
-.toplinks {
+.credit {
+  opacity: 0.9;
+	left: 50%;
+  padding: 2px 5px;
+  position: absolute;
+	margin: 140px 0 0 -180px;
+	top: 50%;
+  width: 380px;
+}
+
+.homenav {
+  left: 50%;
+  padding: 2px 5px;
+  position: absolute;
+	margin: 45px 0 0 -110px;
+	top: 50%;
+  width: 300px;
+}
+
+.homelinks {
   display: inline;
   margin-right: 20px;
   font-size: 15px;
 }
 
-.toplinks a {
+.homelinks a {
   text-decoration: none;
+}
+
+/*--------------------------------------------------------------
+MANAGE LINKS PAGE
+--------------------------------------------------------------*/
+
+.managetitle {
+  font-family: 'Shrikhand', cursive;
+  font-size: 38px;
+  font-weight: 300;
+}
+
+#delete {
+  display: inline-block;
+  float: right;
+
+}
+
+#edit {
+  display: inline-block;
+  float: right;
+  padding-right: 5px;
+}
+
+.linklist {
+  left: 50%;
+  padding: 2px 5px;
+  position: absolute;
+  margin: 80px 0 0 -300px;
+  width: 600px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.linklist li {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #555;
+  background: #ecf4f8;
+  height: 40px;
+  border: 1px solid white;
+  padding: 0 5px 0 25px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow:0 4px 9px rgba(0,0,0,.37);
+  -moz-box-shadow:0 4px 9px rgba(0,0,0,.37);
+  -webkit-box-shadow:0 4px 9px rgba(0,0,0,.37);
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px
+}
+
+.linklist div:nth-of-type(2) {
+margin-left: auto;
+}
+
+.linklist li a {
+  color: #555;
+}
+
+.delete-btn {
+	background: rgb(52,173,236);
+	background: -moz-linear-gradient(top, rgba(52,173,236,1) 0%, rgba(38,145,220,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(52,173,236,1)), color-stop(100%,rgba(38,145,220,1)));
+	background: -webkit-linear-gradient(top, rgba(52,173,236,1) 0%,rgba(38,145,220,1) 100%);
+	background: -o-linear-gradient(top, rgba(52,173,236,1) 0%,rgba(38,145,220,1) 100%);
+	background: -ms-linear-gradient(top, rgba(52,173,236,1) 0%,rgba(38,145,220,1) 100%);
+	background: linear-gradient(to bottom, rgba(52,173,236,1) 0%,rgba(38,145,220,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#34adec', endColorstr='#2691dc',GradientType=0 );
+	border: none;
+	color:#fff;
+	cursor: pointer;
+	font: 13px/13px 'HelveticaNeue', Helvetica, Arial, sans-serif;
+	padding: 10px;
+	width: 60px;
+	box-shadow: 0 0 2px #2692dd inset;
+	-moz-box-shadow: 0 0 2px #2692dd inset;
+	-webkit-box-shadow: 0 0 2px #2692dd inset;
+  border-radius: 9px;
+  -moz-border-radius: 9px;
+  -webkit-border-radius: 9px;
+}
+
+button.delete-btn:hover {
+	opacity:.9;
+}
+
+.edit-btn {
+	background: rgb(52,173,236);
+	background: -moz-linear-gradient(top, rgba(52,173,236,1) 0%, rgba(38,145,220,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(52,173,236,1)), color-stop(100%,rgba(38,145,220,1)));
+	background: -webkit-linear-gradient(top, rgba(52,173,236,1) 0%,rgba(38,145,220,1) 100%);
+	background: -o-linear-gradient(top, rgba(52,173,236,1) 0%,rgba(38,145,220,1) 100%);
+	background: -ms-linear-gradient(top, rgba(52,173,236,1) 0%,rgba(38,145,220,1) 100%);
+	background: linear-gradient(to bottom, rgba(52,173,236,1) 0%,rgba(38,145,220,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#34adec', endColorstr='#2691dc',GradientType=0 );
+	border: none;
+	color:#fff;
+	cursor: pointer;
+	font: 13px/13px 'HelveticaNeue', Helvetica, Arial, sans-serif;
+	padding: 10px;
+	width: 60px;
+	box-shadow: 0 0 2px #2692dd inset;
+	-moz-box-shadow: 0 0 2px #2692dd inset;
+	-webkit-box-shadow: 0 0 2px #2692dd inset;
+  border-radius: 9px;
+  -moz-border-radius: 9px;
+  -webkit-border-radius: 9px;
+}
+
+button.edit-btn:hover {
+	opacity:.9;
+}
+
+.truncate {
+  display: inline-block;
+  vertical-align:middle;
+  width: 310px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: left;
+}
+
+/*--------------------------------------------------------------
+EDIT LINK PAGE
+--------------------------------------------------------------*/
+.edit-title {
+  font-family: 'Shrikhand', cursive;
+  font-size: 38px;
+  font-weight: 300;
+  left: 50%;
+  padding: 2px 5px;
+  position: absolute;
+  margin: -125px 0 0 -155px;
+  top: 50%;
+  text-align: center;
+}
+
+.edit-title-error {
+  font-family: 'Shrikhand', cursive;
+  font-size: 38px;
+  font-weight: 300;
+  left: 50%;
+  padding: 2px 5px;
+  position: absolute;
+  margin: -125px 0 0 -240px;
+  top: 50%;
+  text-align: center;
+}
+
+.edit-id {
+  font-size: 15px;
+  left: 50%;
+  padding: 2px 5px;
+  position: absolute;
+  margin: -85px 0 0 -175px;
+  top: 50%;
+  width:350px;
+  text-align: center;
+  line-height: 22px;
+}
+
+.editnav {
+  left: 50%;
+  padding: 2px 5px;
+  position: absolute;
+  margin: 45px 0 0 -145px;
+  top: 50%;
+  width: 300px;
+  text-align: center;
+}
+
+.editlinks {
+  display: inline;
+  margin-right: 20px;
+  font-size: 15px;
 }

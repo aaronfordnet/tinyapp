@@ -1,36 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <title>My Tiny URLs | TinyApp URL Shortener</title>
+    <title>Manage URLs| TinyApp URL Shortener</title>
     <% include ../views/partials/_header %>
   </head>
   <body>
     <div class="linklist">
-      <h1 class="managetitle">Your Tiny Links</h1>
+      <% if (!user) { %>
 
-        <% if (!user) { %>
-
-          <a href="/login">Please login to see your saved URLs</a>
+      <h1 class="managetitle">We have a tiny problem...</h1>
+      <img src="https://png.icons8.com/dusk/64/000000/sad.png">
+      <br />
+      <a href="/login">Please login to see your saved URLs</a>
 
         <% } else { %>
-
+      <h1 class="managetitle">Your Tiny Links</h1>
       <ul>
+
         <% for (let url in urls) { %>
 
-          <li><a href="<%= urls[url].longURL %>"><%= url %></a> - <%= urls[url].longURL %>
-
-            <form action="/urls/<%= url %>/delete" method="POST" id="delete"><button type="submit" value="Submit">Delete</button></form>
-
-            <a href="/urls/<%= url %>" id="edit"><button>Edit</button></a>
-
+          <li>
+            <div>
+              <a href="<%= urls[url].longURL %>"><%= url %></a> - <p class="truncate"><%=   urls[url].longURL %></p>
+            </div>
+            <div>
+            <a href="/urls/<%= url %>" id="edit" ><button class="edit-btn"><i class="fas fa-edit"></i></button></a>
+            </div>
+            <div>
+            <form action="/urls/<%= url %>/delete" method="POST" id="delete"><button type="submit" value="Submit" class="delete-btn"><i class="far fa-trash-alt"></i></button></form>
+            </div>
           </li>
 
         <% }; %>
 
     </ul>
-    <a href="/urls/new">Shorten a new URL</a>
+
+    <a href="/urls/new">Create a New Short Link</a>
     </div>
       <% } %>
-
   </body>
 </html>

@@ -97,7 +97,7 @@ function urlsForUser(id) {
 
 // Redirect '/' to '/urls/new'
 app.get('/', (req, res) => {
-  res.redirect('/urls/new');
+  res.redirect('/urls');
 });
 
 // CREATE NEW URL PAGE
@@ -118,11 +118,7 @@ app.get('/urls/new', (req, res) => {
 app.get('/urls', (req, res) => {
   let currentUser = users[req.session['user_id']];
   if (!currentUser) {
-    let templateVars = {
-      urls: urlDatabase,
-      user: currentUser,
-    };
-    res.render('urls_index', templateVars);
+    res.redirect('/login');
     return;
   }
 
@@ -136,8 +132,16 @@ app.get('/urls', (req, res) => {
 // EDIT URL PAGE
 app.get('/urls/:id', (req, res) => {
   let currentUser = users[req.session['user_id']];
-  //Check if user owns the link
-  if (!currentUser || currentUser.id !== urlDatabase[req.params.id].userID) {
+
+  // Check if link exists in DATABASE
+  if (!urlDatabase[req.params.id]) {
+    console.log('Error - URL does not exist');
+    res.status(404).render('404');
+    return;
+  }
+
+  // Check if user is logged in
+  if (!currentUser) {
     let templateVars = {
       user: 0,
       shortURL: req.params.id,
@@ -149,8 +153,26 @@ app.get('/urls/:id', (req, res) => {
         return;
       }
     };
+    res.status(404).render('404');
   }
 
+  // Check if logged in user owns the link
+  if (currentUser.id !== urlDatabase[req.params.id].userID) {
+    let templateVars = {
+      user: 0,
+      shortURL: req.params.id,
+      urls: urlDatabase,
+    };
+    for (let urls in urlDatabase) {
+      if (urls === req.params.id) {
+        res.render('urls_show', templateVars);
+        return;
+      }
+    };
+    res.status(404).render('404');
+  }
+
+  // logged in and owns link, show edit page:
   let templateVars = {
     user: currentUser,
     shortURL: req.params.id,
@@ -162,13 +184,16 @@ app.get('/urls/:id', (req, res) => {
       return;
     }
   };
-
   res.status(404).render('404');
 });
 
 // REGISTER PAGE
 app.get('/register', (req, res) => {
   let currentUser = users[req.session['user_id']];
+  if (currentUser) {
+    res.redirect('/urls');
+    return;
+  }
   let templateVars = {
     user: currentUser,
   };
@@ -178,6 +203,10 @@ app.get('/register', (req, res) => {
 // LOGIN PAGE
 app.get('/login', (req, res) => {
   let currentUser = users[req.session['user_id']];
+  if (currentUser) {
+    res.redirect('/urls');
+    return;
+  }
   let templateVars = {
     user: currentUser,
   };
@@ -187,6 +216,10 @@ app.get('/login', (req, res) => {
 // REDIRECT LINK
 app.get('/u/:shortURL', (req, res) => {
   let shortURL = req.params.shortURL;
+  if (!urlDatabase[shortURL]) {
+    res.status(404).render('404');
+    return;
+  }
   let longURL = urlDatabase[shortURL].longURL;
   for (let urls in urlDatabase) {
     if (urls === shortURL) {
@@ -194,7 +227,6 @@ app.get('/u/:shortURL', (req, res) => {
       return;
     }
   };
-
   res.status(404).render('404');
 });
 
@@ -205,9 +237,13 @@ app.get('/u/:shortURL', (req, res) => {
 // CREATE NEW URL - POST
 app.post('/urls', (req, res) => {
   // Create new short URL id and add to database
+  let currentUser = users[req.session['user_id']].id;
   let longURL = req.body.longURL;
   let shortURL = generateRandomString();
-  urlDatabase[shortURL] = longURL;
+  urlDatabase[shortURL] = {
+    longURL: req.body.longURL,
+    userID: currentUser,
+  };
   // Respond with redirect to shortened URL's page
   res.redirect(`/urls/${shortURL}`);
 });
@@ -216,7 +252,6 @@ app.post('/urls', (req, res) => {
 app.post('/urls/:id/delete', (req, res) => {
   let deleteId = req.params.id;
   let currentUser = users[req.session['user_id']].id;
-  // console.log(deleteId, currentUser.id, urlDatabase[deleteId].userID);
   if (currentUser !== urlDatabase[deleteId].userID) {
     console.log('Error - not authorized to delete link');
     res.status(403).render('404');

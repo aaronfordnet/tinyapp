@@ -15,6 +15,7 @@
       <input id="password" type="password" name="password" placeholder="Password">
       <button type="submit" value="Submit">Login</button>
     </form>
+    <p class="register-nav">New to TinyApp? <a href="/register">Sign Up</a>
   <% } else { %>
     <p>
       <%= user.email %>
@@ -23,7 +24,7 @@
       <button type="submit" value="Submit">Logout</button>
     </form>
   <% } %>
-
+<% include ../views/partials/_footer %>
 </body>
 
 </html>
