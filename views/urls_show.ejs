@@ -4,33 +4,30 @@
   <title>Edit URL: <%= shortURL %> | TinyApp URL Shortener</title>
   <% include ../views/partials/_header %>
 </head>
-  <body>
+<body>
 
-    <% if (user === 0) { %>
+  <% if (user === 0) { %>
 
-      <h1 class="edit-title-error">We have a tiny problem...</h1>
+    <h1 class="edit-title-error">We have a tiny problem...</h1>
 
-      <p class="edit-id">
-        <img src="https://png.icons8.com/dusk/64/000000/sad.png"><br />
-        You are not authorized to edit this link.<br />
-    </p>
-      <ul class="editnav">
-        <li class="editlinks"><a href="/login">Please login to see your links</a></li>
-      </ul>
+    <p class="edit-id"><img src="https://png.icons8.com/dusk/64/000000/sad.png"><br />You are not authorized to edit this link.<br /></p>
+    <ul class="editnav">
+      <li class="editlinks"><a href="/login">Please login to see your links</a></li>
+    </ul>
 
-    <% } else { %>
+  <% } else { %>
 
-          <h1 class="edit-title">A Tiny Victory!</h1>
-          <p class="edit-id truncate"><%= shortURL %> > <%= urls[shortURL].longURL %><br />You can edit your tiny link below:</p>
+    <h1 class="edit-title">A Tiny Victory!</h1>
+    <p class="edit-id truncate"><%= shortURL %> > <%= urls[shortURL].longURL %><br />You can edit your tiny link below:</p>
 
-          <form class="searchform cf" action="/urls/<%= shortURL %>" method="POST">
-            <input type="text" name="updatedlongURL" id="updatedLongURL" placeholder="Enter URL to update link" value="<%= urls[shortURL].longURL %>">
-            <button type="submit" value="Submit">Update Link</button>
-          </form>
+    <form class="searchform cf" action="/urls/<%= shortURL %>" method="POST">
+      <input type="text" name="updatedlongURL" id="updatedLongURL" placeholder="Enter URL to update link" value="<%= urls[shortURL].longURL %>">
+      <button type="submit" value="Submit">Update Link</button>
+    </form>
 
-          <ul class="editnav">
-            <li class="editlinks"><a href="/urls">View All Tiny Links</a></li>
-          </ul>
+    <ul class="editnav">
+      <li class="editlinks"><a href="/urls">View All Tiny Links</a></li>
+    </ul>
 
     <% } %>
 

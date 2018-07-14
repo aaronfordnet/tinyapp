@@ -61,6 +61,7 @@ const users = {
     id: 'user_123456',
     email: 'test@test.com',
     password: '$2b$12$pSCMuhBE2eEFZr8zfXQvueOXHMqxvc1VvQ//lw7DW7DNaz2Zdxefe',
+    // Password 'test'
   },
 };
 
@@ -71,7 +72,6 @@ function generateRandomString() {
   for (let i = 0; i < 6; i++) {
     id += characters.charAt(Math.floor(Math.random() * characters.length));
   }
-
   return id;
 }
 
@@ -87,7 +87,6 @@ function urlsForUser(id) {
       };
     }
   }
-
   return output;
 }
 
@@ -95,9 +94,35 @@ function urlsForUser(id) {
       GET ROUTES
 ================= */
 
-// Redirect '/' to '/urls/new'
+// REDIRECT HOME
 app.get('/', (req, res) => {
   res.redirect('/urls');
+});
+
+// REGISTER PAGE
+app.get('/register', (req, res) => {
+  let currentUser = users[req.session['user_id']];
+  if (currentUser) {
+    res.redirect('/urls');
+    return;
+  }
+  let templateVars = {
+    user: currentUser,
+  };
+  res.render('register', templateVars);
+});
+
+// LOGIN PAGE
+app.get('/login', (req, res) => {
+  let currentUser = users[req.session['user_id']];
+  if (currentUser) {
+    res.redirect('/urls');
+    return;
+  }
+  let templateVars = {
+    user: currentUser,
+  };
+  res.render('login', templateVars);
 });
 
 // CREATE NEW URL PAGE
@@ -110,7 +135,6 @@ app.get('/urls/new', (req, res) => {
     res.redirect(`/login`);
     return;
   }
-
   res.render('urls_new', templateVars);
 });
 
@@ -121,7 +145,6 @@ app.get('/urls', (req, res) => {
     res.redirect('/login');
     return;
   }
-
   let templateVars = {
     urls: urlsForUser(currentUser.id),
     user: currentUser,
@@ -133,7 +156,7 @@ app.get('/urls', (req, res) => {
 app.get('/urls/:id', (req, res) => {
   let currentUser = users[req.session['user_id']];
 
-  // Check if link exists in DATABASE
+  // Check if link exists in database
   if (!urlDatabase[req.params.id]) {
     console.log('Error - URL does not exist');
     res.status(404).render('404');
@@ -172,7 +195,7 @@ app.get('/urls/:id', (req, res) => {
     res.status(404).render('404');
   }
 
-  // logged in and owns link, show edit page:
+  // Logged in and owns link => Show edit page:
   let templateVars = {
     user: currentUser,
     shortURL: req.params.id,
@@ -185,32 +208,6 @@ app.get('/urls/:id', (req, res) => {
     }
   };
   res.status(404).render('404');
-});
-
-// REGISTER PAGE
-app.get('/register', (req, res) => {
-  let currentUser = users[req.session['user_id']];
-  if (currentUser) {
-    res.redirect('/urls');
-    return;
-  }
-  let templateVars = {
-    user: currentUser,
-  };
-  res.render('register', templateVars);
-});
-
-// LOGIN PAGE
-app.get('/login', (req, res) => {
-  let currentUser = users[req.session['user_id']];
-  if (currentUser) {
-    res.redirect('/urls');
-    return;
-  }
-  let templateVars = {
-    user: currentUser,
-  };
-  res.render('login', templateVars);
 });
 
 // REDIRECT LINK
@@ -236,7 +233,6 @@ app.get('/u/:shortURL', (req, res) => {
 
 // CREATE NEW URL - POST
 app.post('/urls', (req, res) => {
-  // Create new short URL id and add to database
   let currentUser = users[req.session['user_id']].id;
   let longURL = req.body.longURL;
   let shortURL = generateRandomString();
@@ -244,7 +240,6 @@ app.post('/urls', (req, res) => {
     longURL: req.body.longURL,
     userID: currentUser,
   };
-  // Respond with redirect to shortened URL's page
   res.redirect(`/urls/${shortURL}`);
 });
 
@@ -257,7 +252,6 @@ app.post('/urls/:id/delete', (req, res) => {
     res.status(403).render('404');
     return;
   }
-
   delete urlDatabase[deleteId];
   res.redirect(`../`);
 });
@@ -271,7 +265,6 @@ app.post('/urls/:id', (req, res) => {
     res.status(403).render('404');
     return;
   }
-
   let updatedLongURL = req.body.updatedlongURL;
   urlDatabase[editId].longURL = updatedLongURL;
   res.redirect(`/urls/${editId}`);
@@ -281,31 +274,28 @@ app.post('/urls/:id', (req, res) => {
 app.post('/login', (req, res) => {
   let loginEmail = req.body.email;
   let loginPassword = req.body.password;
-  // check if user exists in DB with email
   for (let userId in users) {
     let user = users[userId];
     if (loginEmail === user.email) {
-      // check for correct password
+      // Check for correct password
       if (!bcrypt.compareSync(loginPassword, user.password)) {
         console.log('Login Error - incorrect password');
         res.status(403).render('404');
         return;
       }
-
       req.session['user_id'] = user.id;
       res.redirect(`/`);
       return;
     }
   }
-
   console.log('Login Error - email not registered');
   res.status(403).render('404');
 });
 
 // USER LOGOUT  - POST
 app.post('/logout', (req, res) => {
+  // Clear cookie
   req.session.user_id = undefined;
-  // coookie res.clearCookie('user_id');
   res.redirect('/');
 });
 
@@ -330,7 +320,6 @@ app.post('/register', (req, res) => {
       return;
     }
   }
-
   // Create new registered user
   users[userId] = {
     id: userId,
@@ -354,8 +343,3 @@ app.use((req, res) => {
 app.listen(port, () => {
   console.log(`TinyApp listening on localhost:${port}`);
 });
-
-//// TO DO:
-// Add custom error message to 404 page depending on error
-// Add register and login links to _header.ejs
-// Check url input for proper formatting when new link created

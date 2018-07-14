@@ -184,16 +184,6 @@ HEADER
   text-align: center;
 }
 
-.credit-register {
-  opacity: 0.9;
-  left: 50%;
-  padding: 2px 5px;
-  position: absolute;
-  margin: 140px 0 0 -180px;
-  top: 50%;
-  width: 380px;
-}
-
 /*--------------------------------------------------------------
 CREATE NEW URL PAGE
 --------------------------------------------------------------*/
@@ -209,16 +199,6 @@ CREATE NEW URL PAGE
 	top: 50%;
   width:300px;
   text-align: center;
-}
-
-.credit {
-  opacity: 0.9;
-	left: 50%;
-  padding: 2px 5px;
-  position: absolute;
-	margin: 140px 0 0 -180px;
-	top: 50%;
-  width: 380px;
 }
 
 .homenav {
@@ -417,4 +397,18 @@ EDIT LINK PAGE
   display: inline;
   margin-right: 20px;
   font-size: 15px;
+}
+
+/*--------------------------------------------------------------
+FOOTER
+--------------------------------------------------------------*/
+
+.credit {
+  opacity: 0.9;
+	left: 50%;
+  padding: 2px 5px;
+  position: absolute;
+	margin: 140px 0 0 -180px;
+	top: 50%;
+  width: 380px;
 }
