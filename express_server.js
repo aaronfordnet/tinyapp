@@ -61,7 +61,6 @@ const users = {
     id: 'user_123456',
     email: 'test@test.com',
     password: '$2b$12$pSCMuhBE2eEFZr8zfXQvueOXHMqxvc1VvQ//lw7DW7DNaz2Zdxefe',
-    // Password 'test'
   },
 };
 
